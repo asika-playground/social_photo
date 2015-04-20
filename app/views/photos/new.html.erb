@@ -1,0 +1,7 @@
+<h1>Add New Photo</h1>
+
+<%= form_for @photo, :url => photos_path, :html => { :multipart => true } do |f| %>
+  <%= f.file_field :image %>
+  <%= f.text_field :description %>
+  <%= f.submit "送出", :class => "btn btn-primary" %>
+<% end %>

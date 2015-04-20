@@ -1,0 +1,10 @@
+<h1>Show Image</h1>
+
+<div class="viewer">
+  <%= image_tag @photo.image.url %>
+  <%= image_tag @photo.image.url(:medium) %>
+  <%= image_tag @photo.image.url(:thumb) %>
+</div>
+
+<p><%= @photo.description %></p>
+<%= link_to "Edit", edit_photo_path, :class => "btn btn-primary" %>

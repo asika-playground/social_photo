@@ -1,5 +1,10 @@
 source 'https://rubygems.org'
 
+gem 'omniauth-facebook'
+gem 'devise'
+gem "paperclip", "~> 4.2"
+
+gem 'bootstrap-sass', '~> 3.3.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
@@ -41,5 +46,9 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'awesome_print'
+  gem 'faker'
+
 end
 
