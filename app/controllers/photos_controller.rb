@@ -1,5 +1,6 @@
 class PhotosController < ApplicationController
 
+  before_action :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :like, :unlike]
   before_action :get_photo, :only => [:show, :edit, :update, :destroy]
 
   def index
@@ -15,7 +16,6 @@ class PhotosController < ApplicationController
     @photo.user = current_user
 
     @photo.save!
-
     redirect_to photos_path
   end
 
@@ -26,18 +26,49 @@ class PhotosController < ApplicationController
   end
 
   def update
-    if @photo.update(photo_params)
-      flash[:notice] = "Updated."
+    if @photo.can_modify_by?(current_user)
+      if @photo.update(photo_params)
+        flash[:notice] = "Updated."
+
+        redirect_to photo_path(@photo)
+      else
+        render :edit
+      end
+
+    else
+      flash[:alert] = "No Permission."
 
       redirect_to photo_path(@photo)
-    else
-      render :edit
     end
   end
 
   def destroy
-    @photo.image = nil
-    @photo.save!
+    if @photo.can_modify_by?(current_user)
+      @photo.destroy
+    else
+      flash[:alert] = "No Permission."
+
+      redirect_to photo_path(@photo)
+    end
+
+    redirect_to photos_path
+  end
+
+  def like
+    @photo = Photo.find(params[:photo_id])
+    like = current_user.likes.build(:photo => @photo)
+    like.save!
+
+    redirect_to photo_path(@photo)
+  end
+
+  def unlike
+    @photo = Photo.find(params[:photo_id])
+    # current_user.like_ids.delete(@photo.id)
+    like = Like.where(:user => current_user, :photo => @photo).first
+    like.destroy
+
+    redirect_to photo_path(@photo)
   end
 
   protected

@@ -4,4 +4,16 @@ class Photo < ActiveRecord::Base
   validates_attachment_content_type :image, :content_type => /\Aimage\/.*\Z/
 
   belongs_to :user
+
+  has_many :likes
+
+  def liked_by?(user)
+    users_like = self.likes.map {|l| l.user_id}
+
+    users_like.include?(user.id)
+  end
+
+  def can_modify_by?(user)
+    (self.user == user) || (self.user.admin?)
+  end
 end
