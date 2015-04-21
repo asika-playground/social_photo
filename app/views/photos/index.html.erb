@@ -4,6 +4,30 @@
   </div>
 </div>
 
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="row photo-shower">
   <div class="col-md-12 showroom">
 
@@ -17,16 +41,47 @@
           </p>
         </div>
 
-        <div class="col-md-5">
+        <div class="col-md-5 photo-main" id="photo<%= photo.id %>">
           <%= link_to photo_path(photo.id) do %>
-            <%= image_tag photo.image(:medium), :class => "photo-index" %>
+            <%= image_tag photo.image(:medium), :class => "index" %>
           <% end %>
 
-          <div class="photo-status pull-right">
-            <span class="glyphicon glyphicon-heart"></span>
-            <%= photo.likes.count %>
-            <span class="glyphicon glyphicon-comment"></span>
-            <%= photo.comments.count %>
+          <% if photo.likes.any? %>
+            <div class="like">
+              <span class="glyphicon glyphicon-heart"></span>
+              <% photo.likes.each do |user| %>
+                <%= link_to user.name, user_path(user) %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <% if photo.description %>
+            <div class="desc">
+              <p>
+                <%= photo.description %>
+              </p>
+            </div>
+          <% end %>
+
+          <div class="comments">
+
+            <%= form_for [photo, @comment], :remote => true, :html => {:class => "comment-form form-inline"} do |f| %>
+              <div class="form-group">
+                <%= f.text_field :content, :class=> "form-control" %>
+                <%= f.submit "送出", :class => "btn btn-primary" %>
+              </div>
+            <% end %>
+
+            <table class="table table-striped table-bordered" id="comments-<%= photo.id %>">
+              <% photo.comments.each do |c| %>
+                <tr>
+                  <td>
+                    <p><%= c.user.name %></p>
+                    <p><%= c.content %></p>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
           </div>
 
         </div>

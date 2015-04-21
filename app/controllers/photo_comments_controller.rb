@@ -11,12 +11,21 @@ class PhotoCommentsController < ApplicationController
     @comment = @photo.comments.build(comment_params)
     @comment.user = current_user
 
-    if @comment.save
-      flash[:notice] = "Replied."
+    respond_to do |format|
 
-      redirect_to photo_path(@photo)
-    else
-      render :new
+      if @comment.save
+        format.html do
+          flash[:notice] = "Replied."
+          redirect_to photo_path(@photo)
+        end
+
+        format.js
+      else
+        format.html {render :new}
+        format.js do
+          render :js => "alert('Reply failed.');"
+        end
+      end
     end
   end
 

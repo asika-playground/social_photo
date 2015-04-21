@@ -12,11 +12,13 @@ div {
     margin: auto;
 }
 
-.photo-index {
+.photo-main .index {
 	max-height: 480px;
 	/*max-width: 480px;*/
 	/*width: auto;*/
 	width: 100%;
+}
+.photo-main .comment-form {
 }
 
 .photo-holder {
