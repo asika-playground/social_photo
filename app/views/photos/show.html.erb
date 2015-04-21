@@ -26,7 +26,14 @@
   <% end %>
 </div>
 
+<div class="tags">
+  <% @photo.tags.each do |t| %>
+    <span class="badge"><%= t.name %></span>
+  <% end %>
+</div>
+
 <%= link_to "Reply", new_photo_comment_path(@photo), :class => "btn btn-primary" %>
+
 <table class="table">
   <% @photo.comments.each do |c| %>
     <tr>

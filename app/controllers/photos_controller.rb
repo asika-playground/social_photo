@@ -15,8 +15,13 @@ class PhotosController < ApplicationController
     @photo = Photo.create( photo_params )
     @photo.user = current_user
 
-    @photo.save!
-    redirect_to photos_path
+    if @photo.save
+      flash[:notice] = "Created."
+
+      redirect_to photos_path
+    else
+      render :new
+    end
   end
 
   def show
@@ -78,7 +83,7 @@ class PhotosController < ApplicationController
   end
 
   def photo_params
-    params.require(:photo).permit(:image, :description)
+    params.require(:photo).permit(:image, :description, :tag_list)
   end
 
 end

@@ -1,6 +1,17 @@
+<h1>Edit New Photo</h1>
+
+<% if @photo.errors.any? %>
+      <ul>
+      <% @photo.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+<% end %>
+
 <%= form_for @photo do |f| %>
   <%= image_tag @photo.image.url(:thumb) %>
-
+  <%= f.text_field :tag_list, 'data-role'=>'tagsinput' %>
   <%= f.text_area :description %>
+
   <%= f.submit "送出", :class => "btn btn-primary" %>
 <% end %>
