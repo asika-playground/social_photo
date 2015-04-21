@@ -25,3 +25,19 @@
     <%= link_to li.user.name, user_path(li.user) %>
   <% end %>
 </div>
+
+<%= link_to "Reply", new_photo_comment_path(@photo), :class => "btn btn-primary" %>
+<table class="table">
+  <% @photo.comments.each do |c| %>
+    <tr>
+      <td>
+        <% if current_user && (c.user == current_user || c.user.admin?) %>
+          <%= link_to "Edit", edit_photo_comment_path(@photo, c), :class => "btn btn-primary" %>
+          <%= link_to "Delete", photo_comment_path(@photo, c), :method => "delete", :class => "btn btn-danger" %>
+        <% end %>
+        <p><%= c.user.name %></p>
+        <%= c.content %>
+      </td>
+    </tr>
+  <% end %>
+</table>

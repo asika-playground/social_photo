@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   resources :photos do
     get "like" => "photos#like"
     get "unlike" => "photos#unlike"
+
+    resources :comments, :controller => "photo_comments", :only => [:new, :create, :edit, :update, :destroy]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
