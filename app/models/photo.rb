@@ -7,8 +7,11 @@ class Photo < ActiveRecord::Base
 
   belongs_to :user
 
-  has_many :likes
+  # has_many :likes
   has_many :comments
+
+  has_many :user_photo_likeships
+  has_many :likes, :through => :user_photo_likeships, :source => :user
 
   has_many :taggings
   has_many :tags, :through => :taggings
@@ -30,9 +33,7 @@ class Photo < ActiveRecord::Base
   end
 
   def liked_by?(user)
-    users_like = self.likes.map {|l| l.user_id}
-
-    users_like.include?(user.id)
+    self.like_ids.include?(user.id)
   end
 
   def can_modify_by?(user)

@@ -21,8 +21,8 @@
 
 <div class="user-liked">
   Liked by:
-  <% @photo.likes.each do |li| %>
-    <%= link_to li.user.name, user_path(li.user) %>
+  <% @photo.likes.each do |user| %>
+    <%= link_to user.name, user_path(user) %>
   <% end %>
 </div>
 

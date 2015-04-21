@@ -61,17 +61,14 @@ class PhotosController < ApplicationController
 
   def like
     @photo = Photo.find(params[:photo_id])
-    like = current_user.likes.build(:photo => @photo)
-    like.save!
+    current_user.likes << @photo
 
     redirect_to photo_path(@photo)
   end
 
   def unlike
     @photo = Photo.find(params[:photo_id])
-    # current_user.like_ids.delete(@photo.id)
-    like = Like.where(:user => current_user, :photo => @photo).first
-    like.destroy
+    current_user.likes.delete(@photo)
 
     redirect_to photo_path(@photo)
   end

@@ -7,8 +7,11 @@ class User < ActiveRecord::Base
 
   has_many :photos
 
-  has_many :likes
+  # has_many :likes
   has_many :comments
+
+  has_many :user_photo_likeships
+  has_many :likes, :through => :user_photo_likeships, :source => :photo
 
   def admin?
     # self.role == "admin"
