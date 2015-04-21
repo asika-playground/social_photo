@@ -65,10 +65,10 @@
 
           <div class="comments">
 
-            <%= form_for [photo, @comment], :remote => true, :html => {:class => "comment-form form-inline"} do |f| %>
+            <%= form_for [photo, @comment], :remote => true, :html => {:class => "comment-form form-inline", :id => "comment-form#{photo.id}"} do |f| %>
               <div class="form-group">
                 <%= f.text_field :content, :class=> "form-control" %>
-                <%= f.submit "送出", :class => "btn btn-primary" %>
+                <%= f.submit "Comment", :class => "btn btn-primary" %>
               </div>
             <% end %>
 
@@ -76,7 +76,9 @@
               <% photo.comments.each do |c| %>
                 <tr>
                   <td>
-                    <p><%= c.user.name %></p>
+                    <%= link_to user_path(c.user) do %>
+                      <%= image_tag c.user.image, :class => "user-avatar-sm pull-left" %>
+                    <% end %>
                     <p><%= c.content %></p>
                   </td>
                 </tr>
@@ -86,7 +88,11 @@
 
         </div>
 
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <% photo.tags.each do |t| %>
+            <span class="badge"><%= t.name   %></span>
+          <% end %>
+        </div>
 
       </div>
 
@@ -94,3 +100,5 @@
     <% end %>
   </div>
 </div>
+
+

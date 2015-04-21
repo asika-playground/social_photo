@@ -1,6 +1,6 @@
 <h1><%= @user.name %></h1>
 
 Likes:
-<% @user.likes.each do |li| %>
-  <%= image_tag li.photo.image.url(:thumb) %>
+<% @user.likes.each do |photo| %>
+  <%= image_tag photo.image.url(:thumb) %>
 <% end %>
