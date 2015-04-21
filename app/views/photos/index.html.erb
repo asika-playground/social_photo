@@ -1,9 +1,41 @@
-<%= link_to "New Photo", new_photo_path %>
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to "New Photo", new_photo_path, :class => "btn btn-primary pull-right" %>
+  </div>
+</div>
 
-<div class="photo-shower">
-  <% @photos.each do |photo| %>
-    <%= link_to photo_path(photo.id) do %>
-      <%= image_tag photo.image(:medium) %>
+<div class="row photo-shower">
+  <div class="col-md-12 showroom">
+
+    <% @photos.each do |photo| %>
+      <div class="row photo-holder">
+
+        <div class="col-md-3">
+          <%= image_tag photo.user.image, :class => "user-avatar pull-right" %>
+          <p class="pull-right">
+            <%= link_to photo.user.name, user_path(photo.user) %> Posted at <%= photo.created_at.to_s(:short) %>
+          </p>
+        </div>
+
+        <div class="col-md-5">
+          <%= link_to photo_path(photo.id) do %>
+            <%= image_tag photo.image(:medium), :class => "photo-index" %>
+          <% end %>
+
+          <div class="photo-status pull-right">
+            <span class="glyphicon glyphicon-heart"></span>
+            <%= photo.likes.count %>
+            <span class="glyphicon glyphicon-comment"></span>
+            <%= photo.comments.count %>
+          </div>
+
+        </div>
+
+        <div class="col-md-4"></div>
+
+      </div>
+
+
     <% end %>
-  <% end %>
+  </div>
 </div>

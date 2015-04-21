@@ -1,3 +1,33 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "bootstrap-tagsinput";
+
+div {
+    /*outline: 1px solid #3c1;*/
+    outline: 1px solid rgba(51, 204, 17, 0.5);
+}
+
+.wrapper {
+    width: 90%;
+    margin: auto;
+}
+
+.photo-index {
+	max-height: 480px;
+	/*max-width: 480px;*/
+	/*width: auto;*/
+	width: 100%;
+}
+
+.photo-holder {
+}
+
+.user-avatar {
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+}
+
+.photo-status {
+	font-size: 20px;
+}
