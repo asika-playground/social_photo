@@ -1,3 +1,3 @@
-$("#comments-<%= @photo.id %>").append("<tr><td><%= j(link_to image_tag(@comment.user.image, :class => "user-avatar-sm pull-left"), user_path(@comment.user) ) %><p><%= @comment.content %></p></td></tr>");
+$("#comments-<%= @photo.id %>").append("<tr id=\"comment-<%= @photo.id %>-<%= @comment.id %>\"><td><%= j(link_to image_tag(@comment.user.image, :class => "user-avatar-sm pull-left"), user_path(@comment.user) ) %><p><%= @comment.content %></p><% if current_user && current_user == @comment.user %><%= j(link_to "Delete", photo_comment_path(@photo, @comment), :method => "delete", :remote => true, :class => "btn btn-xs btn-danger pull-right") %><% end %></td></tr>");
 
 $("#comment-form<%= @photo.id %>").trigger("reset");

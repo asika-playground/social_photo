@@ -32,7 +32,7 @@
   <div class="col-md-12 showroom">
 
     <% @photos.each do |photo| %>
-      <div class="row photo-holder">
+      <div class="row photo-holder" id="photo-<%= photo.id %>">
 
         <div class="col-md-3">
           <%= image_tag photo.user.image, :class => "user-avatar pull-right" %>
@@ -41,7 +41,7 @@
           </p>
         </div>
 
-        <div class="col-md-5 photo-main" id="photo<%= photo.id %>">
+        <div class="col-md-5 photo-main">
           <%= link_to photo_path(photo.id) do %>
             <%= image_tag photo.image(:medium), :class => "index" %>
           <% end %>
@@ -63,7 +63,24 @@
             </div>
           <% end %>
 
-          <div class="comments">
+          <div class="comment-list">
+
+            <table class="table table-striped table-bordered" id="comments-<%= photo.id %>">
+              <% photo.comments.each do |c| %>
+                <tr id="comment-<%= photo.id %>-<%= c.id %>">
+                  <td>
+                    <%= link_to user_path(c.user) do %>
+                      <%= image_tag c.user.image, :class => "user-avatar-sm pull-left" %>
+                    <% end %>
+                    <p><%= c.content %></p>
+
+                    <% if current_user && current_user == c.user %>
+                      <%= link_to "Delete", photo_comment_path(photo, c), :method => "delete", :remote => true, :class => "btn btn-xs btn-danger pull-right" %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
 
             <%= form_for [photo, @comment], :remote => true, :html => {:class => "comment-form form-inline", :id => "comment-form#{photo.id}"} do |f| %>
               <div class="form-group">
@@ -72,18 +89,6 @@
               </div>
             <% end %>
 
-            <table class="table table-striped table-bordered" id="comments-<%= photo.id %>">
-              <% photo.comments.each do |c| %>
-                <tr>
-                  <td>
-                    <%= link_to user_path(c.user) do %>
-                      <%= image_tag c.user.image, :class => "user-avatar-sm pull-left" %>
-                    <% end %>
-                    <p><%= c.content %></p>
-                  </td>
-                </tr>
-              <% end %>
-            </table>
           </div>
 
         </div>

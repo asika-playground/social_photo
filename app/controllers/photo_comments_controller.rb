@@ -48,15 +48,25 @@ class PhotoCommentsController < ApplicationController
   def destroy
     @comment = @photo.comments.find(params[:id])
 
-    if @comment.can_modify_by?(current_user)
-      @comment.destroy
+    respond_to do |format|
 
-      flash[:alert] = "Comment Deleted."
-    else
-      flash[:alert] = "No Permission to Delete!!"
+      format.html do
+        if @comment.can_modify_by?(current_user)
+          @comment.destroy
+
+          flash[:alert] = "Comment Deleted."
+        else
+          flash[:alert] = "No Permission to Delete!!"
+        end
+        redirect_to photo_path(@photo)
+      end
+
+      format.js do
+        if @comment.can_modify_by?(current_user)
+          @comment.destroy
+        end
+      end
     end
-
-    redirect_to photo_path(@photo)
   end
 
   protected
