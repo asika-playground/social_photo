@@ -1,0 +1,13 @@
+<span class="glyphicon glyphicon-heart"></span>
+<%= photo.likes.count %>
+<span class="glyphicon glyphicon-comment"></span>
+<%= photo.comments.count %>
+
+<% if current_user %>
+
+  <div class="stat-buttons pull-right">
+    <%= link_to photo.liked_by?(current_user)? "Unlike" : "Like", photo_like_path(photo), :remote => true, :class => "btn btn-default" %>
+
+  </div>
+  <div class="clearfix"></div>
+<% end %>

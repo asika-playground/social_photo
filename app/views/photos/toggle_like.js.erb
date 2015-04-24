@@ -1,0 +1,1 @@
+$("#photo-<%= @photo.id %> .photo-stat").html("<%= j(render :partial => "likestat", :locals => {:photo => @photo, :current_user => current_user}) %>");

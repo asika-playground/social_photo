@@ -9,8 +9,7 @@ Rails.application.routes.draw do
   resources :users, :only => :show
 
   resources :photos do
-    get "like" => "photos#like"
-    get "unlike" => "photos#unlike"
+    get "like" => "photos#toggle_like"
 
     resources :comments, :controller => "photo_comments", :only => [:new, :create, :edit, :update, :destroy]
   end

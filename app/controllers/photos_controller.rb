@@ -60,18 +60,31 @@ class PhotosController < ApplicationController
     redirect_to photos_path
   end
 
-  def like
+  def toggle_like
     @photo = Photo.find(params[:photo_id])
-    current_user.likes << @photo
 
-    redirect_to photo_path(@photo)
+    @like = true
+    if @photo.liked_by?(current_user)
+      current_user.likes.delete(@photo)
+      @like = false
+    else
+      current_user.likes << @photo
+    end
+
+    respond_to do |format|
+      format.html { redirect_to photo_path(@photo) }
+      format.js
+    end
   end
 
   def unlike
     @photo = Photo.find(params[:photo_id])
     current_user.likes.delete(@photo)
 
-    redirect_to photo_path(@photo)
+    respond_to do |format|
+      format.html { redirect_to photo_path(@photo) }
+      format.js
+    end
   end
 
   protected
