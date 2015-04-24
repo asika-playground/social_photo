@@ -1,1 +1,3 @@
 $("#comment-<%= @photo.id %>-<%= @comment.id %>").remove();
+
+$("#photo-<%= @photo.id %> .photo-stat").html("<%= j(render :partial => "photos/likestat", :locals => {:photo => @photo, :current_user => current_user}) %>");
