@@ -8,6 +8,7 @@
   <div class="stat-buttons pull-right">
     <%= link_to photo.liked_by?(current_user)? "Unlike" : "Like", photo_like_path(photo), :remote => true, :class => "btn btn-default" %>
 
+    <%= link_to photo.subscribed_by?(current_user)? "Unsubscribe" : "Subscribe", photo_subscribe_path(photo), :remote => true, :class => "btn btn-default" %>
   </div>
   <div class="clearfix"></div>
 <% end %>

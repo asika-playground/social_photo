@@ -77,15 +77,23 @@ class PhotosController < ApplicationController
     end
   end
 
-  def unlike
+  def toggle_subscribe
     @photo = Photo.find(params[:photo_id])
-    current_user.likes.delete(@photo)
+
+    @like = true
+    if @photo.subscribed_by?(current_user)
+      current_user.subscriptions.delete(@photo)
+      @like = false
+    else
+      current_user.subscriptions << @photo
+    end
 
     respond_to do |format|
       format.html { redirect_to photo_path(@photo) }
       format.js
     end
   end
+
 
   protected
 

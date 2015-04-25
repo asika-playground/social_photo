@@ -6,12 +6,13 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:facebook]
 
   has_many :photos
-
-  # has_many :likes
   has_many :comments
 
   has_many :user_photo_likeships
   has_many :likes, :through => :user_photo_likeships, :source => :photo
+
+  has_many :user_photo_subscribeships
+  has_many :subscriptions, :through => :user_photo_subscribeships, :source => :photo
 
   def admin?
     # self.role == "admin"

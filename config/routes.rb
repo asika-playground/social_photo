@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :photos do
     get "like" => "photos#toggle_like"
+    get "subscribe" => "photos#toggle_subscribe"
 
     resources :comments, :controller => "photo_comments", :only => [:new, :create, :edit, :update, :destroy]
   end

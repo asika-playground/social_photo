@@ -14,6 +14,8 @@ class PhotoCommentsController < ApplicationController
     respond_to do |format|
 
       if @comment.save
+        UserMailer.notify_comment(current_user, @comment).deliver_later!
+
         format.html do
           flash[:notice] = "Replied."
           redirect_to photo_path(@photo)

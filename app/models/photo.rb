@@ -7,11 +7,13 @@ class Photo < ActiveRecord::Base
 
   belongs_to :user
 
-  # has_many :likes
   has_many :comments
 
   has_many :user_photo_likeships
   has_many :likes, :through => :user_photo_likeships, :source => :user
+
+  has_many :user_photo_subscribeships
+  has_many :subscriptions, :through => :user_photo_subscribeships, :source => :user
 
   has_many :taggings
   has_many :tags, :through => :taggings
@@ -34,6 +36,10 @@ class Photo < ActiveRecord::Base
 
   def liked_by?(user)
     self.like_ids.include?(user.id)
+  end
+
+  def subscribed_by?(user)
+    self.subscription_ids.include?(user.id)
   end
 
   def can_modify_by?(user)
