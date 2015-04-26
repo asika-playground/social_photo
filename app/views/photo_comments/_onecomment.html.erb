@@ -3,7 +3,7 @@
     <%= link_to user_path(c.user) do %>
       <%= image_tag c.user.image, :class => "user-avatar-sm pull-left" %>
     <% end %>
-    <p><%= c.content %></p>
+    <p class="thecontent"><%= c.content %></p>
 
     <% if current_user && current_user == c.user %>
       <%= link_to "Delete", photo_comment_path(photo, c), :method => "delete", :remote => true, :class => "btn btn-xs btn-danger pull-right" %>

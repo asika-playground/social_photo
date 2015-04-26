@@ -7,13 +7,13 @@ class Photo < ActiveRecord::Base
 
   belongs_to :user
 
-  has_many :comments
+  has_many :comments, :dependent => :destroy
 
-  has_many :user_photo_likeships
-  has_many :likes, :through => :user_photo_likeships, :source => :user
+  has_many :user_photo_likeships, :dependent => :destroy
+  has_many :likes, :through => :user_photo_likeships, :source => :user, :dependent => :destroy
 
-  has_many :user_photo_subscribeships
-  has_many :subscriptions, :through => :user_photo_subscribeships, :source => :user
+  has_many :user_photo_subscribeships, :dependent => :destroy
+  has_many :subscriptions, :through => :user_photo_subscribeships, :source => :user, :dependent => :destroy
 
   has_many :taggings
   has_many :tags, :through => :taggings

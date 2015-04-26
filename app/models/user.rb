@@ -5,14 +5,14 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
 
-  has_many :photos
-  has_many :comments
+  has_many :photos, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
 
-  has_many :user_photo_likeships
-  has_many :likes, :through => :user_photo_likeships, :source => :photo
+  has_many :user_photo_likeships, :dependent => :destroy
+  has_many :likes, :through => :user_photo_likeships, :source => :photo, :dependent => :destroy
 
-  has_many :user_photo_subscribeships
-  has_many :subscriptions, :through => :user_photo_subscribeships, :source => :photo
+  has_many :user_photo_subscribeships, :dependent => :destroy
+  has_many :subscriptions, :through => :user_photo_subscribeships, :source => :photo, :dependent => :destroy
 
   def admin?
     # self.role == "admin"
