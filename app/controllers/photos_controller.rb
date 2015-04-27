@@ -24,12 +24,13 @@ class PhotosController < ApplicationController
           # flash[:notice] = "Created."
           redirect_to photos_path
         end
-        # format.js
+
+        format.js
       end
     else
       respond_to do |format|
         format.html { render :new }
-        format.js { render :js => "alert('Reply failed.');" }
+        format.js { render :js => "alert('Create failed.');" }
       end
     end
   end
@@ -42,22 +43,43 @@ class PhotosController < ApplicationController
   end
 
   def edit
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def update
     if @photo.can_modify_by?(current_user)
       if @photo.update(photo_params)
-        flash[:notice] = "Updated."
 
-        redirect_to photo_path(@photo)
+        respond_to do |format|
+          format.html do
+            flash[:notice] = "Updated."
+
+            redirect_to photo_path(@photo)
+          end
+          format.js
+        end
       else
-        render :edit
+        respond_to do |format|
+          format.html { render :edit }
+
+          format.js { render :js => "alert('Edit Failure.');" }
+        end
+
       end
 
     else
-      flash[:alert] = "No Permission."
+      respond_to do |format|
+        format.html do
+          flash[:alert] = "No Permission."
 
-      redirect_to photo_path(@photo)
+          redirect_to photo_path(@photo)
+        end
+
+        format.js { render :js => "alert('No Permission.');" }
+      end
     end
   end
 
