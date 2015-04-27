@@ -1,0 +1,68 @@
+<div class="row photo-holder" id="photo-<%= photo.id %>">
+
+  <div class="col-md-3">
+    <%= image_tag photo.user.image, :class => "user-avatar pull-right" %>
+    <p class="pull-right">
+      <%= link_to photo.user.name, user_path(photo.user) %> Posted at <%= photo.created_at.to_s(:short) %>
+    </p>
+  </div>
+
+  <div class="col-md-5 photo-main">
+    <%= link_to photo_path(photo.id) do %>
+      <%= image_tag photo.image(:medium), :class => "index" %>
+    <% end %>
+
+    <div class="photo-stat">
+      <div class="stat">
+        <%= render :partial => "likestat", :locals => {:photo => photo, :current_user => current_user} %>
+
+      </div>
+
+    </div>
+
+    <% if photo.likes.any? %>
+      <div class="likers">
+        Liked by:
+        <% photo.likes.each do |user| %>
+          <%= link_to user.name, user_path(user) %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if photo.description %>
+      <div class="desc">
+        <p>
+          <%= photo.description %>
+        </p>
+      </div>
+    <% end %>
+
+    <div class="comment-list">
+
+      <table class="table table-striped table-bordered" id="comments-<%= photo.id %>">
+        <% photo.comments.each do |c| %>
+          <%= render :partial => "photo_comments/onecomment", :locals => {:photo => photo, :c => c} %>
+
+        <% end %>
+      </table>
+
+      <% if current_user %>
+        <%= form_for [photo, @comment], :remote => true, :html => {:class => "comment-form form-inline", :id => "comment-form#{photo.id}"} do |f| %>
+          <div class="form-group">
+            <%= f.text_field :content, :class=> "form-control" %>
+            <%= f.submit "Comment", :class => "btn btn-primary" %>
+          </div>
+        <% end %>
+      <% end %>
+
+    </div>
+
+  </div>
+
+  <div class="col-md-4">
+    <% photo.tags.each do |t| %>
+      <span class="badge"><%= t.name   %></span>
+    <% end %>
+  </div>
+
+</div>

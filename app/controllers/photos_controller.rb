@@ -4,7 +4,9 @@ class PhotosController < ApplicationController
   before_action :get_photo, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @photos = Photo.all
+    @photos = Photo.all.order("created_at DESC")
+
+    @photo = Photo.new
     @comment = Comment.new
   end
 
@@ -17,11 +19,18 @@ class PhotosController < ApplicationController
     @photo.user = current_user
 
     if @photo.save
-      flash[:notice] = "Created."
-
-      redirect_to photos_path
+      respond_to do |format|
+        format.html do
+          # flash[:notice] = "Created."
+          redirect_to photos_path
+        end
+        # format.js
+      end
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.js { render :js => "alert('Reply failed.');" }
+      end
     end
   end
 

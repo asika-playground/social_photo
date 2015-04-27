@@ -1,0 +1,4 @@
+$(".showroom").prepend("<%= j(render :partial => "onephoto", :locals => {:photo => @photo}) %>");
+
+$("#panel-new").hide();
+$("#form-newphoto").trigger("reset");
