@@ -47,12 +47,12 @@
       </table>
 
       <% if current_user %>
-        <%= form_for [photo, @comment], :remote => true, :html => {:class => "comment-form form-inline", :id => "comment-form#{photo.id}"} do |f| %>
-          <div class="form-group">
-            <%= f.text_field :content, :class=> "form-control" %>
-            <%= f.submit "Comment", :class => "btn btn-primary" %>
-          </div>
-        <% end %>
+          <%= form_for [photo, @comment], :remote => true, :html => {:class => "comment-form form-inline", :id => "comment-form#{photo.id}"} do |f| %>
+            <div class="form-group">
+              <%= f.text_field :content, :class=> "form-control comment-input" %>
+              <%= f.submit "Comment", :class => "btn btn-primary" %>
+            </div>
+          <% end %>
       <% end %>
 
     </div>
@@ -61,7 +61,7 @@
 
   <div class="col-md-4">
     <% photo.tags.each do |t| %>
-      <span class="badge"><%= t.name   %></span>
+      <span class="badge"><%= t.name %></span>
     <% end %>
   </div>
 
