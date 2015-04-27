@@ -63,14 +63,24 @@ class PhotosController < ApplicationController
 
   def destroy
     if @photo.can_modify_by?(current_user)
+      @photo_id = @photo.id
       @photo.destroy
-    else
-      flash[:alert] = "No Permission."
 
-      redirect_to photo_path(@photo)
+      respond_to do |format|
+        format.html { redirect_to photos_path }
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.html do
+          flash[:alert] = "No Permission."
+          redirect_to photo_path(@photo)
+        end
+        format.js { render :js => "alert('No Permission.');" }
+      end
     end
 
-    redirect_to photos_path
+
   end
 
   def toggle_like
