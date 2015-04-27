@@ -8,7 +8,7 @@
   </div>
 
   <div class="col-md-5 photo-main">
-    <%= link_to photo_path(photo.id) do %>
+    <%= link_to photo_path(photo.id), :remote => true, "data-toggle" => "modal", "data-target" => "#panel-viewer" do %>
       <%= image_tag photo.image(:medium), :class => "index" %>
     <% end %>
 

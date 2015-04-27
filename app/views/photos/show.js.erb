@@ -1,0 +1,5 @@
+$("#panel-viewer img").attr("src", "");
+$("#panel-viewer p").html("");
+
+$("#panel-viewer img").attr("src", "<%= @photo.image %>");
+$("#panel-viewer p").html("<%= @photo.description %>");
