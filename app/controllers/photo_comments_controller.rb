@@ -14,7 +14,9 @@ class PhotoCommentsController < ApplicationController
     respond_to do |format|
 
       if @comment.save
-        UserMailer.notify_comment(current_user, @comment).deliver_later!
+        if @photo.subscribed_by?(current_user)
+          UserMailer.notify_comment(current_user, @comment).deliver_later!
+        end
 
         format.html do
           flash[:notice] = "Replied."
@@ -24,9 +26,7 @@ class PhotoCommentsController < ApplicationController
         format.js
       else
         format.html {render :new}
-        format.js do
-          render :js => "alert('Reply failed.');"
-        end
+        format.js {render :js => "alert('Reply failed.');"}
       end
     end
   end
