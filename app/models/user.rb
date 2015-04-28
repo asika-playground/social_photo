@@ -5,6 +5,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
 
+  validates_presence_of :friendly_id
+  validates_uniqueness_of :friendly_id
+
+  before_validation :setup_friendly_id
+
   has_many :photos, :dependent => :destroy
   has_many :comments, :dependent => :destroy
 
@@ -17,6 +22,10 @@ class User < ActiveRecord::Base
   def admin?
     # self.role == "admin"
     false
+  end
+
+  def to_param
+    self.friendly_id
   end
 
   def self.new_with_session(params, session)
@@ -33,6 +42,12 @@ class User < ActiveRecord::Base
       user.password = Devise.friendly_token[0,20]
       user.name = auth.info.name   # assuming the user model has a name
       user.image = auth.info.image # assuming the user model has an image
+    end
+  end
+
+  def setup_friendly_id
+    if self.friendly_id.blank?
+     self.friendly_id = SecureRandom.hex(8)
     end
   end
 
