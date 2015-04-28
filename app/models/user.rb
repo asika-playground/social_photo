@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   def setup_friendly_id
     if self.friendly_id.blank?
      self.friendly_id = SecureRandom.hex(8)
+     self.save!
     end
   end
 
